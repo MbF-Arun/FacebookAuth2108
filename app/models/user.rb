@@ -2,8 +2,11 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable,
     :omniauthable, :omniauth_providers => [:facebook]
+
+  attr_accessor :email, :password_digest , :remember_me
+
 
   def self.new_with_session(params, session)
     super.tap do |user|
@@ -21,6 +24,20 @@ class User < ApplicationRecord
       user.image = auth.info.image # assuming the user model has an image
     end
   end
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+      BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+  has_secure_password
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
 
+  # Remembers a user in the database for use in persistent sessions.
+  def remember
+    self.remember_token = User.new_token
+    update_attribute(:remember_digest, User.digest(remember_token))
+  end
 
 end
