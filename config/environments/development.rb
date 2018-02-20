@@ -31,6 +31,23 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.default :charset => "utf-8"
+  # config.EMAIL_SENDER_ADDRESS = "arun.yinyan@gmail.com"
+
+  ActionMailer::Base.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :domain => 'mail.google.com',
+    :port => 587,
+    :authentication => 'plain',
+    :user_name => "arun.yinyan@gmail.com",
+    :password => "arundragon",
+    :enable_starttls_auto => true
+  }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

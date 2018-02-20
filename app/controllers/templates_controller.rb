@@ -1,10 +1,11 @@
 class TemplatesController < ApplicationController
-  before_action :authenticate_user! , only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user! , only: [:create, :show, :edit, :update, :destroy]
   before_action :set_template, only: [:show, :edit, :update, :destroy]
 
   # GET /templates
   # GET /templates.json
   def index
+    @user = current_user
     @templates = Template.all
   end
 
@@ -15,6 +16,7 @@ class TemplatesController < ApplicationController
 
   # GET /templates/new
   def new
+
     @template = Template.new
   end
 

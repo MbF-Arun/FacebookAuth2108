@@ -5,7 +5,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable,
     :omniauthable, :omniauth_providers => [:facebook]
 
-  attr_accessor :email, :password_digest , :remember_me
+  attr_accessor  :password_digest , :remember_me
 
 
   def self.new_with_session(params, session)
